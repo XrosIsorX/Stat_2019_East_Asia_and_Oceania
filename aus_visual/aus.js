@@ -1,67 +1,91 @@
 google.charts.load("current", { packages: ["corechart"] });
 google.charts.setOnLoadCallback(drawChart);
+url = "https://docs.google.com/spreadsheets/d/1v6tnxDsjtZm6RV9zZqr3AWBh_6qk-LrayslweRase2Y/gviz/tq?sheet=Australia&headers=1&tq=";
 
 function drawChart() {
   var queryString = encodeURIComponent("select A,I");
+  var query = new google.visualization.Query( url + queryString );
+  query.send(handleGDPLineResponse);
 
-  var query = new google.visualization.Query(
-    "https://docs.google.com/spreadsheets/d/1qPHJNNAcuSYG2V7nPcvsg20IV07jSsvPPqS69PvH27o/gviz/tq?sheet=Sheet1&headers=1&tq=" +
-      queryString
-  );
-  query.send(handleGDPResponse);
+  var queryString = encodeURIComponent("select A,R");
+  var query = new google.visualization.Query( url + queryString );
+  query.send(handleRevLineResponse);
 
-  queryString = encodeURIComponent("select A,B,C,D,E,F,G,H,I");
+  queryString = encodeURIComponent("select A,B,C,D,E,F,G,H");
+  var query = new google.visualization.Query( url + queryString );
+  query.send(handleGDPAreaResponse);
 
-  query = new google.visualization.Query(
-    "https://docs.google.com/spreadsheets/d/1Yn-KtRYZ_dQNjzlPlv3xfacdgzXVHJmsvINC2F1WlKU/gviz/tq?sheet=Sheet1&headers=1&tq=" +
-      queryString
-  );
-
-  query.send(handleRevResponse);
+  queryString = encodeURIComponent("select A,J,K,L,M,N,O,P,Q");
+  var query = new google.visualization.Query( url + queryString );
+  query.send(handleRevAreaResponse);
 }
 
-function handleGDPResponse(response) {
+function errorGen(res) {
+  alert(
+    "Error in query: " +
+      res.getMessage() +
+      " " +
+      res.getDetailedMessage()
+  );
+}
+
+function handleGDPLineResponse(response) {
   if (response.isError()) {
-    alert(
-      "Error in query: " +
-        response.getMessage() +
-        " " +
-        response.getDetailedMessage()
-    );
+    errorAlert(response);
     return;
   }
+
   var data = response.getDataTable();
 
   var options = {
     title: "Australia's GDP over year ( Million $US )",
     curveType: "function",
-    legend: { position: "bottom" },
+    legend: { position: "none" },
     hAxis: {
       format:'#',
       title: "year"
     }
   };
 
-  var gdp_chart = new google.visualization.LineChart(
-    document.getElementById("aus_gdp_chart_div")
+  var gdp_line = new google.visualization.LineChart(
+    document.getElementById("aus_gdp_line_div")
   );
-  gdp_chart.draw(data, options);
+  gdp_line.draw(data, options);
 }
 
-function handleRevResponse(response) {
+function handleRevLineResponse(response) {
   if (response.isError()) {
-    alert(
-      "Error in query: " +
-        response.getMessage() +
-        " " +
-        response.getDetailedMessage()
-    );
+    errorAlert(response);
+    return;
+  }
+
+  var data = response.getDataTable();
+
+  var options = {
+    title: "Australia Government's Revenue ( Million $US )",
+    curveType: "function",
+    legend: { position: "none" },
+    hAxis: {
+      format:'#',
+      title: "year"
+    }
+  };
+
+  var rev_line = new google.visualization.LineChart(
+    document.getElementById("aus_rev_line_div")
+  );
+  rev_line.draw(data, options);
+}
+
+function handleRevAreaResponse(response) {
+  if (response.isError()) {
+    errorAlert(response);
     return;
   }
   var data = response.getDataTable();
 
   var options_fullStacked = {
-    title : "Australia Government's Revenue ( Million $AU )",
+    title : "Australia Government's Revenue ( Million $US )",
     isStacked: "relative",
     legend: { position: "right", maxLines: 3 },
     vAxis: {
@@ -75,8 +99,39 @@ function handleRevResponse(response) {
     }
   };
   
-  var rev_chart = new google.visualization.AreaChart(
-    document.getElementById("aus_rev_chart_div")
+  var rev_area = new google.visualization.AreaChart(
+    document.getElementById("aus_rev_area_div")
   );
-  rev_chart.draw(data, options_fullStacked);
+  rev_area.draw(data, options_fullStacked);
 }
+
+function handleGDPAreaResponse(response) {
+  if (response.isError()) {
+    errorAlert(response);
+    return;
+  }
+  var data = response.getDataTable();
+
+  var options_fullStacked = {
+    title : "Australia's GDP over year ( Million $US )",
+    isStacked: "relative",
+    legend: { position: "right", maxLines: 3 },
+    vAxis: {
+      format: "#%",
+      minValue: 0,
+      ticks: [0, 0.2, 0.4, 0.6, 0.8, 1]
+    },
+    hAxis: {
+      format:'#',
+      title: "year"
+    }
+  };
+  
+  var gdp_area = new google.visualization.AreaChart(
+    document.getElementById("aus_gdp_area_div")
+  );
+  gdp_area.draw(data, options_fullStacked);
+}
+
+
+
