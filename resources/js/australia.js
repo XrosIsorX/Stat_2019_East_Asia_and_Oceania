@@ -20,7 +20,7 @@ function drawChart() {
   query.send(handleRevAreaResponse);
 }
 
-function errorGen(res) {
+function errorAlert(res) {
   alert(
     "Error in query: " +
       res.getMessage() +
