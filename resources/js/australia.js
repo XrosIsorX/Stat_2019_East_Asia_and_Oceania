@@ -20,7 +20,7 @@ function drawChart() {
   query.send(handleRevAreaResponse);
 }
 
-function errorGen(res) {
+function errorAlert(res) {
   alert(
     "Error in query: " +
       res.getMessage() +
@@ -38,7 +38,7 @@ function handleGDPLineResponse(response) {
   var data = response.getDataTable();
 
   var options = {
-    title: "Australia's GDP over year ( Million $US )",
+    title: "GDP over year ( Million $US )",
     curveType: "function",
     legend: { position: "none" },
     hAxis: {
@@ -62,7 +62,7 @@ function handleRevLineResponse(response) {
   var data = response.getDataTable();
 
   var options = {
-    title: "Australia Government's Revenue ( Million $US )",
+    title: "Government's Revenue ( Million $US )",
     curveType: "function",
     legend: { position: "none" },
     hAxis: {
@@ -85,7 +85,7 @@ function handleRevAreaResponse(response) {
   var data = response.getDataTable();
 
   var options_fullStacked = {
-    title : "Australia Government's Revenue ( Million $US )",
+    title : "Government's Revenue Factors",
     isStacked: "relative",
     legend: { position: "right", maxLines: 3 },
     vAxis: {
@@ -113,7 +113,7 @@ function handleGDPAreaResponse(response) {
   var data = response.getDataTable();
 
   var options_fullStacked = {
-    title : "Australia's GDP over year ( Million $US )",
+    title : "GDP Factors",
     isStacked: "relative",
     legend: { position: "right", maxLines: 3 },
     vAxis: {

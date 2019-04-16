@@ -1,39 +1,44 @@
 google.charts.load('current', {
-    'packages':['geochart', 'corechart'],
+    'packages':['geochart','corechart','line'],
     // Note: you will need to get a mapsApiKey for your project.
     // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
     'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
   });
 google.charts.setOnLoadCallback(drawChart);
 
-url = "https://docs.google.com/spreadsheets/d/1v6tnxDsjtZm6RV9zZqr3AWBh_6qk-LrayslweRase2Y/gviz/tq?sheet=All&headers=1&tq=";
+all_url = "https://docs.google.com/spreadsheets/d/1v6tnxDsjtZm6RV9zZqr3AWBh_6qk-LrayslweRase2Y/gviz/tq?sheet=All&headers=1&tq=";
+tax_url = "https://docs.google.com/spreadsheets/d/1v6tnxDsjtZm6RV9zZqr3AWBh_6qk-LrayslweRase2Y/gviz/tq?sheet=Tax&headers=1&tq=";
 
 function drawChart() {
     // GDP
     var queryString = encodeURIComponent("select A, B");
-    var query = new google.visualization.Query( url + queryString );
+    var query = new google.visualization.Query(all_url + queryString );
     query.send(drawEastAsiasMapGDP);
     
     var queryString = encodeURIComponent("select A, B");
-    var query = new google.visualization.Query( url + queryString );
+    var query = new google.visualization.Query(all_url + queryString );
     query.send(drawOceaniasMapGDP);
 
     var queryString = encodeURIComponent("select A, B");
-    var query = new google.visualization.Query( url + queryString );
+    var query = new google.visualization.Query(all_url + queryString );
     query.send(drawPieGDP);
 
     // Revenue
     var queryString = encodeURIComponent("select A, C");
-    var query = new google.visualization.Query( url + queryString );
+    var query = new google.visualization.Query(all_url + queryString );
     query.send(drawEastAsiasMapRevenue);
     
     var queryString = encodeURIComponent("select A, C");
-    var query = new google.visualization.Query( url + queryString );
+    var query = new google.visualization.Query(all_url + queryString );
     query.send(drawOceaniasMapRevenue);
 
     var queryString = encodeURIComponent("select A, C");
-    var query = new google.visualization.Query( url + queryString );
+    var query = new google.visualization.Query(all_url + queryString );
     query.send(drawPieRevenue);
+    
+    queryString = encodeURIComponent("select A,B,C,D,E,F");
+    query = new google.visualization.Query(tax_url + queryString);
+    query.send(handleTaxResponse);
 }
 
 function errorGen(res) {
@@ -155,4 +160,34 @@ function drawPieRevenue(response) {
 
     var chart = new google.visualization.PieChart(document.getElementById('pie_revenue'));
     chart.draw(data, options);
-  }
+}
+
+function handleTaxResponse(response) {
+    if (response.isError()) {
+        alert(
+        "Error in query: " +
+            response.getMessage() +
+            " " +
+            response.getDetailedMessage()
+        );
+        return;
+    }
+    var data = response.getDataTable();
+
+
+    var options = {
+        title: "ภาษีของแต่ละประเทศเมื่อเทียบกับรายรับในแต่ละปี",
+        subtitle : "หน่วย $US",
+        vAxis:{
+            title: 'ภาษีที่ต้องจ่าย (USD)'
+        },
+        hAxis: {
+            title: 'รายรับบุคคล (USD)'
+        },
+    };
+
+    var tax_regression = new google.charts.Line(
+        document.getElementById("tax_regression_div")
+    );
+    tax_regression.draw(data, google.charts.Line.convertOptions(options));
+}
