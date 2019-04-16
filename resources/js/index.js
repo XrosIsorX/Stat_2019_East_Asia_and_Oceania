@@ -8,6 +8,7 @@ google.charts.setOnLoadCallback(drawChart);
 
 all_url = "https://docs.google.com/spreadsheets/d/1v6tnxDsjtZm6RV9zZqr3AWBh_6qk-LrayslweRase2Y/gviz/tq?sheet=All&headers=1&tq=";
 tax_url = "https://docs.google.com/spreadsheets/d/1v6tnxDsjtZm6RV9zZqr3AWBh_6qk-LrayslweRase2Y/gviz/tq?sheet=Tax&headers=1&tq=";
+yearly_GDP_url = "https://docs.google.com/spreadsheets/d/1v6tnxDsjtZm6RV9zZqr3AWBh_6qk-LrayslweRase2Y/gviz/tq?sheet=yearly_GDP&headers=1&tq="
 
 function drawChart() {
     // GDP
@@ -35,6 +36,10 @@ function drawChart() {
     var queryString = encodeURIComponent("select A, C");
     var query = new google.visualization.Query(all_url + queryString );
     query.send(drawPieRevenue);
+    
+    queryString = encodeURIComponent("select A,B,C,D,E,F");
+    query = new google.visualization.Query(yearly_GDP_url + queryString);
+    query.send(handleYearlyGDPResponse);
     
     queryString = encodeURIComponent("select A,B,C,D,E,F");
     query = new google.visualization.Query(tax_url + queryString);
@@ -190,4 +195,33 @@ function handleTaxResponse(response) {
         document.getElementById("tax_regression_div")
     );
     tax_regression.draw(data, google.charts.Line.convertOptions(options));
+}
+function handleYearlyGDPResponse(response) {
+    if (response.isError()) {
+        alert(
+        "Error in query: " +
+            response.getMessage() +
+            " " +
+            response.getDetailedMessage()
+        );
+        return;
+    }
+    var data = response.getDataTable();
+
+
+    var options = {
+        title: "GDP ของแต่ละประเทศระหว่างปี 2005 - 2017",
+        subtitle : "หน่วยล้าน $US",
+        vAxis:{
+            title: 'GDP (ล้านUSD)'
+        },
+        hAxis: {
+            title: 'ปี'
+        },
+    };
+
+    var GDP_line = new google.charts.Line(
+        document.getElementById("GDP_line_div")
+    );
+    GDP_line.draw(data, google.charts.Line.convertOptions(options));
 }
