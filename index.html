@@ -15,7 +15,11 @@
         <!-- Google chart -->
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+        <!-- Other -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
         <!-- Local js -->
+        <script src="./resources/js/load_component.js" type="text/javascript"></script>
         <script src="./resources/js/index.js" type="text/javascript"></script>
         
         <title>Let's Get to Know the World</title>
@@ -23,54 +27,39 @@
 
     <body>
         <div >
-            <nav class="navbar navbar-expand-lg navbar-light bg-warning">
-                <i class="fa fa-globe fa-3x" aria-hidden="true"></i>
-                <a style="padding-left: 20px" class="navbar-brand" href="#">East Asia and Oceania</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="./australia.html">Australia  <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="./china.html">China</a>
-                    <a class="nav-item nav-link" href="./japan.html">Japan</a>
-                    <a class="nav-item nav-link" href="./korea">Korea</a>
-                    <a class="nav-item nav-link" href="./newzealand">New Zealand</a>
-                    </div>
-                </div>
-            </nav>
+            <div id="nav_bar"></div>
 
+            <div class="container" style="padding-top: 20px;">
+                <h1 style="padding-bottom: 20px" >Let's Get to Know the World</h1>
 
-        <div class="container" style="padding-top: 20px;">
-            <h1 style="padding-bottom: 20px" >Let's Get to Know the World</h1>
+                <h3>GDP</h3>
+                <div id="east_asia_regions_gdp" style="width: 900px; height: 500px;"></div>  
+                <div id="oceania_regions_gdp" style="width: 900px; height: 500px;"></div>
+                
+                <div id="pie_gdp" style="width: 900px; height: 500px;"></div>  
+                
+                <div id="line_all_gdp" style="width: 900px; height: 500px;"></div>  
+                
+                <h3>Revenue</h3>
+                <div id="east_asia_regions_revenue" style="width: 900px; height: 500px;"></div>  
+                <div id="oceania_regions_revenue" style="width: 900px; height: 500px;"></div>  
+                
+                <div id="pie_revenue" style="width: 900px; height: 500px;"></div>  
 
-            <h3>GDP</h3>
-            <div id="east_asia_regions_gdp" style="width: 900px; height: 500px;"></div>  
-            <div id="oceania_regions_gdp" style="width: 900px; height: 500px;"></div>
-            
-            <div id="pie_gdp" style="width: 900px; height: 500px;"></div>  
-            
-            <div id="line_all_gdp" style="width: 900px; height: 500px;"></div>  
-            
-            <h3>Revenue</h3>
-            <div id="east_asia_regions_revenue" style="width: 900px; height: 500px;"></div>  
-            <div id="oceania_regions_revenue" style="width: 900px; height: 500px;"></div>  
-            
-            <div id="pie_revenue" style="width: 900px; height: 500px;"></div>  
+                <div id="line_all_revenue" style="width: 900px; height: 500px;"></div>  
 
-            <div id="line_all_revenue" style="width: 900px; height: 500px;"></div>  
-
-            <h3>Tax</h3>
-            <div id="tax_regression_div" style="width: 900px; height: 500px;"></div> 
-        </div>
-            
-        <div align="center" style="padding-bottom: 20px">
-            <div id="regions_div" style="width: 900px; height: 500px; align-self: center"></div>  
-        </div>
-            
-        <footer ><font size="2"><b>Tip:</b> This is a part of 01204314 Statistics for Computer Engineering Applications.</font></footer>
+                <h3>Tax</h3>
+                <div id="tax_regression_div" style="width: 900px; height: 500px;"></div> 
+            </div>
+                
+            <div align="center" style="padding-bottom: 20px">
+                <div id="regions_div" style="width: 900px; height: 500px; align-self: center"></div>  
+            </div>
+                
+            <footer ><font size="2"><b>Tip:</b> This is a part of 01204314 Statistics for Computer Engineering Applications.</font></footer>
 
         </div>
 
+    
     </body>
 </html>
