@@ -11,11 +11,11 @@ function drawChart() {
   var query = new google.visualization.Query( url + queryString );
   query.send(handleRevLineResponse);
 
-  queryString = encodeURIComponent("select A,C,D,E,F,G,H,I,J,K,L,M,N,O,P");
+  queryString = encodeURIComponent("select A,C,D,I,J,K,M,N,O,P");
   var query = new google.visualization.Query( url + queryString );
   query.send(handleGDPAreaResponse);
 
-  queryString = encodeURIComponent("select R,T,U,V,W,X,Y,Z,AA");
+  queryString = encodeURIComponent("select T,U,X,Y,Z");
   var query = new google.visualization.Query( url + queryString );
   query.send(handleRevAreaResponse);
 }
