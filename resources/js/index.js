@@ -108,6 +108,7 @@ function drawPieGDP(response) {
     }
 
     var data = response.getDataTable();
+    data.sort({column: 1, desc: true});
     var options = {
         title: "%GDP in five country",
         is3D: true,
@@ -190,6 +191,7 @@ function drawPieRevenue(response) {
     }
 
     var data = response.getDataTable();
+    data.sort({column: 1, desc: true});
     var options = {
         title: "%Revenue in five country",
         is3D: true,
